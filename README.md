@@ -6,12 +6,12 @@
 
 ![Arduino](https://github.com/magikboy/Parcial-1/blob/30c7b791849ce1d70de15ec52cb6a92ac3aec450/ArduinoTinkercad.jpg)
 
-### Modelo de montacarga funcional
+### Modelo de Alarma Contra Incendios
 
 ![Alarma Contra Incendios](https://github.com/magikboy/parcial-2-SPD/blob/35b1e881b319ae2d823b6017096cff1e721dc344/alarma.PNG)
-### 🦴Modelo esquematico del montacargas
+### 🦴Esquema de Alarma Contra Incendios
 
-![Montacargas de hospital](https://github.com/magikboy/parcial-2-SPD/blob/35b1e881b319ae2d823b6017096cff1e721dc344/esquema.PNG)
+![Esquema de Alarma Contra Incendios](https://github.com/magikboy/parcial-2-SPD/blob/35b1e881b319ae2d823b6017096cff1e721dc344/esquema.PNG)
 
 ## 📄Consigna Montacargas:
 Se nos pide armar un modelo de montacarga funcional como maqueta para un hospital. El
