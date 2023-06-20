@@ -796,5 +796,5 @@ la variable **botonPausa** es una variable que se utiliza para almacenar el esta
 ### 📄Fuentes
 
 - [Youtube](https://www.youtube.com)
-- [electrontools](https://www.electrontools.com/Home/WP/display-7-segmentos/)
+- [electrontools](https://www.electrontools.com/Home/WP/sensor-infrarojo-con-arduino/)
 - [Utn](http://www.sistemas-utnfra.com.ar/#/home)
