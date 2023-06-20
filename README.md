@@ -791,7 +791,7 @@ la variable **botonPausa** es una variable que se utiliza para almacenar el esta
 
 ### 📄Parcial:
 
-[Consignas](https://github.com/magikboy/Parcial-1/blob/02b8c8bd45b8f18107d74b41cb75eaca4d41e1a5/Primer%20Parcial%20SPD%20Parte%20Practica.pdf)
+[Consignas](https://github.com/magikboy/parcial-2-SPD/blob/672a8977f21a56b0f5e515bc6447ac401242fa1d/Consigna_%20Sistema%20de%20incendio%20con%20Arduino%2C%20Segundo%20parcial.pdf)
 
 ### 📄Fuentes
 
