@@ -13,10 +13,45 @@
 
 ![Esquema de Alarma Contra Incendios](https://github.com/magikboy/parcial-2-SPD/blob/35b1e881b319ae2d823b6017096cff1e721dc344/esquema.PNG)
 
-## 📄Consigna Montacargas:
-Se nos pide armar un modelo de montacarga funcional como maqueta para un hospital. El
-objetivo es que implementes un sistema que pueda recibir ordenes de subir, bajar o pausar
-desde diferentes pisos y muestre el estado actual del montacargas en el display 7 segmentos.
+## 📄Consigna de la Alarma:
+Objetivo:
+El objetivo de este proyecto es diseñar un sistema de incendio utilizando Arduino que pueda
+detectar cambios de temperatura y activar un servo motor en caso de detectar un incendio.
+Además, se mostrará la temperatura actual y la estación del año en un display LCD.
+
+Componentes necesarios:
+✔Arduino UNO
+✔Sensor de temperatura
+✔Control remoto IR (Infrarrojo)
+✔Display LCD (16x2 caracteres)
+✔Servo motor
+✔Cables y resistencias según sea necesario
+✔Protoboard para realizar las conexiones
+✔Dos leds.
+
+• Control remoto:
+Configura el control remoto IR para recibir señales.
+Define los comandos necesarios para activar y desactivar el sistema de incendio.
+Utiliza un algoritmo para determinar la estación del año (por ejemplo, rangos de temperatura
+para cada estación).
+
+• Detección de temperatura:
+Configura el sensor de temperatura y realiza la lectura de la temperatura ambiente.
+Muestra la temperatura actual en el display LCD.
+
+• Sistema de alarma:
+Define un umbral de temperatura a partir del cual se considera que hay un incendio (por
+ejemplo, temperatura superior a 60 grados Celsius).
+Cuando se detecta un incendio (temperatura por encima del umbral), se activa el servo
+motor para simular una respuesta del sistema de incendio.
+
+• Mensajes en el display LCD:
+Muestra la temperatura actual y la estación del año en el display LCD.
+Cuando se detecta un incendio, muestra un mensaje de alarma en el display LCD.
+Punto libre:
+Se deberá agregar dos leds y darle una funcionalidad de su elección, acorde al
+proyecto previamente detallado.
+
 
 ### 🚀Codigo del proyecto
 ``` C++
