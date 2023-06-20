@@ -21,13 +21,21 @@ Además, se mostrará la temperatura actual y la estación del año en un displa
 
 Componentes necesarios:
 ✔Arduino UNO
+
 ✔Sensor de temperatura
+
 ✔Control remoto IR (Infrarrojo)
+
 ✔Display LCD (16x2 caracteres)
+
 ✔Servo motor
+
 ✔Cables y resistencias según sea necesario
+
 ✔Protoboard para realizar las conexiones
+
 ✔Dos leds.
+
 
 • Control remoto:
 Configura el control remoto IR para recibir señales.
