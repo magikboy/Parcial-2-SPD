@@ -267,6 +267,104 @@ int posicionServo = 0;
 Estas líneas declaran dos variables adicionales. "alarmaActivada" es una variable booleana que indica si la alarma está activada (true) o desactivada (false).
 "posicionServo" es una variable entera que almacenará la posición actual del servo motor.
 
+``` C++
+void setup() {
+  Serial.begin(9600);
+  servo.attach(13);
+  lcd.begin(16, 2);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  IrReceiver.begin(IR, DISABLE_LED_FEEDBACK);
+}
+
+```
+La función setup() se ejecuta una vez al inicio del programa. Aquí se realizan las configuraciones iniciales de los componentes y se establecen los pines de entrada/salida necesarios.
+
+Serial.begin(9600) inicializa la comunicación serial a una velocidad de 9600 baudios, lo que permite enviar y recibir datos desde y hacia el puerto serial de la placa Arduino.
+
+servo.attach(13) asocia el pin digital 13 a la instancia del objeto servo creado anteriormente, permitiendo así el control del servo motor.
+
+lcd.begin(16, 2) inicializa la comunicación con la pantalla LCD de 16 columnas y 2 filas, que se conecta a los pines especificados en la biblioteca LiquidCrystal.
+
+pinMode(9, OUTPUT) y pinMode(10, OUTPUT) configuran los pines 9 y 10 como salidas digitales, que se utilizarán para controlar algún tipo de dispositivo externo, como luces o alarmas.
+
+IrReceiver.begin(IR, DISABLE_LED_FEEDBACK) inicializa el receptor de infrarrojos con el pin especificado (6 en este caso) y desactiva el LED de retroalimentación del recepto
+
+
+``` C++
+void loop() {
+  if (IrReceiver.decode()) {        
+    // Se imprime el código de la señal infrarroja recibida
+    Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX); 
+    // Verificar si se presionó la tecla 1 del control remoto
+    if (IrReceiver.decodedIRData.decodedRawData == Tecla_1) {
+      activarAlarmaControl();
+    }
+    // Verificar si se presionó la tecla 2 del control remoto
+    if (IrReceiver.decodedIRData.decodedRawData == Tecla_2) {
+      desactivarAlarmaControl();
+    }
+    IrReceiver.resume();
+  }
+  delay(1);
+
+  // Leer la temperatura y mostrarla en la pantalla LCD
+  float temperatura = leerTemperatura();
+  lcd.setCursor(1, 1);
+  lcd.print(temperatura);
+  String estacion = obtenerEstacion(temperatura);
+  lcd.setCursor(8, 1);
+  lcd.print(estacion);
+
+  // Activar o desactivar la alarma según la temperatura
+  if (temperatura > umbralAlarma) {
+    activarAlarma();
+  } else {
+    desactivarAlarma();
+  }
+
+  // Si la alarma está activada, mover el servo motor
+  if (alarmaActivada) {
+    moverServo();
+  }
+}
+```
+
+La función loop() se ejecuta continuamente después de la función setup(). Aquí se encuentran las instrucciones que se repetirán en bucle mientras el Arduino esté encendido.
+
+if (IrReceiver.decode()) verifica si se ha recibido una señal infrarroja. Si es así, se ejecuta el bloque de código dentro del if.
+
+Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX) imprime por el puerto serial el código de la señal infrarroja recibida en formato hexadecimal.
+
+if (IrReceiver.decodedIRData.decodedRawData == Tecla_1) verifica si el código de la señal infrarroja coincide con el valor de Tecla_1 (definido previamente). Si coincide, se llama a la función activarAlarmaControl().
+
+if (IrReceiver.decodedIRData.decodedRawData == Tecla_2) verifica si el código de la señal infrarroja coincide con el valor de Tecla_2 (definido previamente). Si coincide, se llama a la función desactivarAlarmaControl().
+
+IrReceiver.resume() reinicia el receptor de infrarrojos para recibir la siguiente señal.
+
+delay(1) introduce una pausa de 1 milisegundo entre iteraciones del bucle principal para evitar que el programa se ejecute demasiado rápido.
+
+float temperatura = leerTemperatura() llama a la función leerTemperatura() para obtener el valor de la temperatura actual.
+
+lcd.setCursor(1, 1) y lcd.print(temperatura) establecen la posición del cursor en la pantalla LCD y muestran la temperatura.
+
+String estacion = obtenerEstacion(temperatura) llama a la función obtenerEstacion() pasando la temperatura como argumento y obtiene la estación correspondiente basada en la temperatura.
+
+lcd.setCursor(8, 1) y lcd.print(estacion) establecen la posición del cursor en la pantalla LCD y muestran la estación obtenida.
+
+``` C++
+void setup() {
+  Serial.begin(9600);
+  servo.attach(13);
+  lcd.begin(16, 2);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  IrReceiver.begin(IR, DISABLE_LED_FEEDBACK);
+}
+
+```
+
+
 ---
 ## <img src="tinkercad-logo.png" alt="Tinkercad" height="32px"> Link al proyecto
 
