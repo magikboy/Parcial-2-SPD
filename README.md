@@ -632,7 +632,7 @@ la variable **botonPausa** es una variable que se utiliza para almacenar el esta
 ---
 ## <img src="tinkercad-logo.png" alt="Tinkercad" height="32px"> Link al proyecto
 
-- [Proyecto](https://www.tinkercad.com/things/cn31fUhwE2b)
+- [Proyecto](https://www.tinkercad.com/things/7Iyod7Uu8om?sharecode=HWUrwhqvIBeIJMbOGsoJYb3Ep-zqGuxPZPnH1S97p7c)
 
 ### 📄Parcial:
 
