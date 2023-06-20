@@ -20,6 +20,7 @@ detectar cambios de temperatura y activar un servo motor en caso de detectar un 
 Además, se mostrará la temperatura actual y la estación del año en un display LCD.
 
 Componentes necesarios:
+
 ✔Arduino UNO
 
 ✔Sensor de temperatura
