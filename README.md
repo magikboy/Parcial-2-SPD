@@ -352,17 +352,121 @@ String estacion = obtenerEstacion(temperatura) llama a la función obtenerEstaci
 
 lcd.setCursor(8, 1) y lcd.print(estacion) establecen la posición del cursor en la pantalla LCD y muestran la estación obtenida.
 
+---
+### 🧠Funciones Principales
+
 ``` C++
-void setup() {
-  Serial.begin(9600);
-  servo.attach(13);
-  lcd.begin(16, 2);
-  pinMode(9, OUTPUT);
-  pinMode(10, OUTPUT);
-  IrReceiver.begin(IR, DISABLE_LED_FEEDBACK);
+// Leer la temperatura del sensor
+float leerTemperatura() {
+  int valorRaw = analogRead(pinTemperatura);
+  float voltaje = valorRaw * (5.0 / 1023.0);
+  float temperatura = (voltaje - 0.5) * 100.0;
+  return temperatura;
 }
 
+// Obtener la estación climática según la temperatura
+String obtenerEstacion(float temperatura) {
+  if (temperatura >= -5 && temperatura <= 10) {
+    return "Winter";
+  } else if (temperatura > 20 && temperatura <= 30) {
+    return "Spring";
+  } else if (temperatura > 30 && temperatura <= 45) {
+    return "Summer";
+  } else if (temperatura > 10 && temperatura <= 20) {
+    return "Autumn";
+  } else {
+    return "      ";
+  }
+}
+
+// Activar la alarma de incendio
+void activarAlarma() {
+  if (!alarmaActivada) {
+    alarmaActivada = true;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Alarma");
+    lcd.setCursor(7, 0);
+    lcd.print("Incendio");
+    servo.write(180);
+    delay(1000);
+    digitalWrite(10, HIGH);
+    delay(1000);
+    digitalWrite(9, HIGH);
+    delay(1000);
+    servo.write(180);
+  }
+}
+
+// Desactivar la alarma de incendio
+void desactivarAlarma() {
+  if (alarmaActivada) {
+    alarmaActivada = false;
+    lcd.clear();
+    digitalWrite(10, LOW);
+    digitalWrite(9, LOW);
+    servo.write(90);
+  }
+}
+
+// Activar la alarma de incendio mediante el control remoto
+void activarAlarmaControl() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Alarma");
+  lcd.setCursor(7, 0);
+  lcd.print("Incendio");
+  lcd.setCursor(0, 1);
+  lcd.print("Activada");
+  digitalWrite(9, HIGH);
+  servo.write(180);
+  delay(1000);
+  lcd.clear();
+  delay(1000);
+}
+
+// Desactivar la alarma de incendio mediante el control remoto
+void desactivarAlarmaControl() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Alarma");
+  lcd.setCursor(7, 0);
+  lcd.print("Incendio");
+  lcd.setCursor(0, 1);
+  lcd.print("Desactivada");
+  digitalWrite(10, HIGH);
+  servo.write(90);
+  delay(1000);
+  lcd.clear();
+  delay(1000);
+}
+
+// Mover el servo motor de un extremo a otro
+void moverServo() {
+  if (posicionServo == 0) {
+    posicionServo = 180; // Cambiar la posición del servo motor a 180 grados (derecha)
+  } else {
+    posicionServo = 0; // Cambiar la posición del servo motor a 0 grados (izquierda)
+  }
+  servo.write(posicionServo); // Mover el servo motor a la posición deseada
+  delay(1000); // Retardo de 1 segundo para observar el movimiento
+}
 ```
+
+⏺float leerTemperatura(): Esta función lee el valor del sensor de temperatura conectado al pin analógico pinTemperatura. El valor leído se convierte a voltaje y luego se utiliza una fórmula para calcular la temperatura en grados Celsius. El resultado se devuelve como un valor de tipo float.
+
+⏺String obtenerEstacion(float temperatura): Esta función toma la temperatura como argumento y devuelve una cadena de texto que representa la estación climática correspondiente a esa temperatura. Se realizan comparaciones en los rangos de temperatura para determinar la estación. Si no se cumple ninguna condición, se devuelve una cadena vacía.
+
+⏺void activarAlarma(): Esta función se encarga de activar la alarma de incendio. Si la alarma no está ya activada, se realiza lo siguiente: se establece la variable alarmaActivada como true, se borra la pantalla LCD, se imprime el mensaje "Alarma Incendio" en la pantalla, se mueve el servo motor a 180 grados, se espera 1 segundo, se activan los pines 10 y 9 (que se asume que están conectados a elementos de alarma), y finalmente se vuelve a mover el servo motor a 180 grados.
+
+⏺void desactivarAlarma(): Esta función se encarga de desactivar la alarma de incendio. Si la alarma está activada, se realiza lo siguiente: se establece la variable alarmaActivada como false, se borra la pantalla LCD, se desactivan los pines 10 y 9, y se mueve el servo motor a 90 grados.
+
+⏺void activarAlarmaControl(): Esta función se ejecuta cuando se presiona la tecla 1 del control remoto. Muestra un mensaje en la pantalla LCD indicando que la alarma está activada, activa los elementos de alarma y mueve el servo motor a 180 grados.
+
+⏺void desactivarAlarmaControl(): Esta función se ejecuta cuando se presiona la tecla 2 del control remoto. Muestra un mensaje en la pantalla LCD indicando que la alarma está desactivada, desactiva los elementos de alarma y mueve el servo motor a 90 grados.
+
+⏺void moverServo(): Esta función se encarga de mover el servo motor de un extremo a otro. Si la variable posicionServo es 0, se cambia a 180 (derecha), y si es diferente de 0, se cambia a 0 (izquierda). Luego, se utiliza servo.write(posicionServo) para mover el servo motor a la posición deseada, y se introduce un retardo de 1 segundo para observar el movimiento.
+
 
 
 ---
