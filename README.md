@@ -20,363 +20,164 @@ desde diferentes pisos y muestre el estado actual del montacargas en el display 
 
 ### 🚀Codigo del proyecto
 ``` C++
-#define BOTON_SUBIR 2
-#define BOTON_BAJAR 3
-#define BOTON_PAUSAR 4
-#define led_Verde 5
-#define led_Rojo 6
-#define A 7
-#define B 8
-#define C 9
-#define D 10
-#define E 11
-#define F 12
-#define G 13
-const int TIEMPO_ESPERA_BOTON = 10; // Tiempo de espera entre lecturas de botones en milisegundos.
-const int TIEMPO_POR_PISO = 3000; // Tiempo que tarda el montacargas en llegar a cada piso en milisegundos.
-const int TIEMPO_ESPERA_MOVIMIENTO = 3000; // Tiempo de espera después de que se mueve el montacargas en milisegundos.
+#include <Servo.h>
+#include <LiquidCrystal.h>
+#include <IRremote.h>
 
-boolean botonSubir = false;
-boolean botonBajar = false;
-boolean botonPausa = false;
+#define Tecla_1 0xEF10BF00
+#define Tecla_2 0xEE11BF00
 
-int contador = 0; //INICIALIZO EL CONTADOR EN 0
-String mensaje = ""; //PARA PODER ESCRIBIR EN EL MONITOR
+Servo servo;
+LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
+const int pinTemperatura = A0;
+const int umbralAlarma = 60;
+int IR = 6;
 
-const char* mensajesPisos[] = {
-  "Llego al piso 0.",
-  "Llego al piso 1.",
-  "Llego al piso 2.",
-  "Llego al piso 3.",
-  "Llego al piso 4.",
-  "Llego al piso 5.",
-  "Llego al piso 6.",
-  "Llego al piso 7.",
-  "Llego al piso 8.",
-  "Llego al piso 9."
-};
-
-void mostrarPiso(int piso) {
-switch(piso) {
-  case 0:
-  	cero(1);
-  	break;
-  case 1:
-  	uno(1);
-  	break;
-  case 2:
-    dos(1);
-    break;
-  case 3:
-    tres(1);
-    break;
-  case 4:
-    cuatro(1);
-    break;
-  case 5:
-    cinco(1);
-    break;
-  case 6:
-    seis(1);
-    break;
-  case 7:
-    siete(1);
-    break;
-  case 8:
-    ocho(1);
-    break;
-  case 9:
-    nueve(1);
-    break;
-}
-mensaje = mensajesPisos[piso];
-}
-
-void cambiarPiso(String direccion) {
-  if (direccion == "subir" && contador < 9) {
-    contador++;
-  }
-  else if (direccion == "bajar" && contador > 0) {
-    contador--;
-  }
-}
-
-int moverPiso(String subirBajar, int tiempoDelay)
-{
-  digitalWrite(led_Rojo, 0);
-  cambiarPiso(subirBajar);
-  mostrarPiso(contador);
-  digitalWrite(led_Verde, 1);
-  delay(tiempoDelay);
-  digitalWrite(led_Verde , 0);
-  displayOff();
-  Serial.println(mensaje);
-  return contador;
-}
-
-// FUNCIONES
-void displayOff() // Apago display al salir del switch
-{
-  digitalWrite(A, LOW);
-  digitalWrite(B, LOW);
-  digitalWrite(C, LOW);
-  digitalWrite(D, LOW);
-  digitalWrite(E, LOW);
-  digitalWrite(F, LOW);
-  digitalWrite(G, LOW);
-}
-
-void cero(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, HIGH);
-  digitalWrite(F, HIGH);
-  digitalWrite(G, LOW);
-}
-
-void uno(int on)
-{
-  digitalWrite(A, LOW);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, LOW);
-  digitalWrite(E, LOW);
-  digitalWrite(F, LOW);
-  digitalWrite(G, LOW);
-}
-
-void dos(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, LOW);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, HIGH);
-  digitalWrite(F, LOW);
-  digitalWrite(G, HIGH);
-}
-
-void tres(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, LOW);
-  digitalWrite(F, LOW);
-  digitalWrite(G, HIGH);
-}
-
-void cuatro(int on)
-{
-  digitalWrite(A, LOW);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, LOW);
-  digitalWrite(E, LOW);
-  digitalWrite(F, HIGH);
-  digitalWrite(G, HIGH);
-}
-
-void cinco(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, LOW);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, LOW);
-  digitalWrite(F, HIGH);
-  digitalWrite(G, HIGH);
-}
-
-void seis(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, LOW);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, HIGH);
-  digitalWrite(F, HIGH);
-  digitalWrite(G, HIGH);
-}
-
-void siete(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, LOW);
-  digitalWrite(E, LOW);
-  digitalWrite(F, LOW);
-  digitalWrite(G, LOW);
-}
-
-void ocho(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, HIGH);
-  digitalWrite(F, HIGH);
-  digitalWrite(G, HIGH);
-}
-
-void nueve(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, LOW);
-  digitalWrite(F, HIGH);
-  digitalWrite(G, HIGH);
-}
-
-void todos(int on)
-{
-  digitalWrite(A, HIGH);
-  digitalWrite(B, HIGH);
-  digitalWrite(C, HIGH);
-  digitalWrite(D, HIGH);
-  digitalWrite(E, HIGH);
-  digitalWrite(F, HIGH);
-  digitalWrite(G, HIGH);
-}
-
-void actualizarDisplay(int piso) {
-  switch (piso) {
-    case 1:
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, HIGH);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, LOW);
-      break;
-    case 2:
-      digitalWrite(A, LOW);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, LOW);
-      digitalWrite(E, LOW);
-      digitalWrite(F, LOW);
-      digitalWrite(G, LOW);
-      break;
-    case 3:
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, LOW);
-      digitalWrite(F, LOW);
-      digitalWrite(G, HIGH);
-      break;
-    case 4:
-      digitalWrite(A, LOW);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, LOW);
-      digitalWrite(E, LOW);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      break;
-    case 5:
-      digitalWrite(A, HIGH);
-      digitalWrite(B, LOW);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, LOW);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      break;
-    case 6:
-      digitalWrite(A, HIGH);
-      digitalWrite(B, LOW);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, HIGH);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      break;
-    case 7:
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, LOW);
-      digitalWrite(E, LOW);
-      digitalWrite(F, LOW);
-      digitalWrite(G, LOW);
-      break;
-    case 8:
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, HIGH);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      break;
-    case 9:
-      digitalWrite(A, HIGH);
-      digitalWrite(B, HIGH);
-      digitalWrite(C, HIGH);
-      digitalWrite(D, HIGH);
-      digitalWrite(E, LOW);
-      digitalWrite(F, HIGH);
-      digitalWrite(G, HIGH);
-      break;
-  }
-}
-// FIN FUNCIONES
+bool alarmaActivada = false;
+int posicionServo = 0;
 
 void setup() {
-pinMode(BOTON_SUBIR, INPUT_PULLUP);
-pinMode(BOTON_BAJAR, INPUT_PULLUP);
-pinMode(BOTON_PAUSAR, INPUT_PULLUP);
-pinMode(led_Rojo, OUTPUT);
-pinMode(led_Verde, OUTPUT);
-pinMode(A, OUTPUT);
-pinMode(B, OUTPUT);
-pinMode(C, OUTPUT);
-pinMode(D, OUTPUT);
-pinMode(E, OUTPUT);
-pinMode(F, OUTPUT);
-pinMode(G, OUTPUT);
-Serial.begin(9600);
-mostrarPiso(contador);
+  Serial.begin(9600);
+  servo.attach(13);
+  lcd.begin(16, 2);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+  IrReceiver.begin(IR, DISABLE_LED_FEEDBACK);
 }
 
 void loop() {
-// Leer el estado de los botones
-botonSubir = digitalRead(BOTON_SUBIR);
-botonBajar = digitalRead(BOTON_BAJAR);
-botonPausa = digitalRead(BOTON_PAUSAR);
+  if (IrReceiver.decode()) {        
+    // Se imprime el código de la señal infrarroja recibida
+    Serial.println(IrReceiver.decodedIRData.decodedRawData, HEX); 
+    // Verificar si se presionó la tecla 1 del control remoto
+    if (IrReceiver.decodedIRData.decodedRawData == Tecla_1) {
+      activarAlarmaControl();
+    }
+    // Verificar si se presionó la tecla 2 del control remoto
+    if (IrReceiver.decodedIRData.decodedRawData == Tecla_2) {
+      desactivarAlarmaControl();
+    }
+    IrReceiver.resume();
+  }
+  delay(1);
 
-// Si se presiona el botón de subir, mover hacia arriba
-if (botonSubir == LOW) {
-moverPiso("subir", TIEMPO_POR_PISO);
+  // Leer la temperatura y mostrarla en la pantalla LCD
+  float temperatura = leerTemperatura();
+  lcd.setCursor(1, 1);
+  lcd.print(temperatura);
+  String estacion = obtenerEstacion(temperatura);
+  lcd.setCursor(8, 1);
+  lcd.print(estacion);
+
+  // Activar o desactivar la alarma según la temperatura
+  if (temperatura > umbralAlarma) {
+    activarAlarma();
+  } else {
+    desactivarAlarma();
+  }
+
+  // Si la alarma está activada, mover el servo motor
+  if (alarmaActivada) {
+    moverServo();
+  }
 }
 
-// Si se presiona el botón de bajar, mover hacia abajo
-if (botonBajar == LOW) {
-moverPiso("bajar", TIEMPO_POR_PISO);
+// Leer la temperatura del sensor
+float leerTemperatura() {
+  int valorRaw = analogRead(pinTemperatura);
+  float voltaje = valorRaw * (5.0 / 1023.0);
+  float temperatura = (voltaje - 0.5) * 100.0;
+  return temperatura;
 }
 
-// Si se presiona el botón de pausa, detener el movimiento
-if (botonPausa == LOW) {
-  mensaje = "El montacargas se detuvo";
-  Serial.println(mensaje);
-  digitalWrite(led_Verde, 0);
-  digitalWrite(led_Rojo, 1);
-  delay(TIEMPO_ESPERA_MOVIMIENTO);
-  mostrarPiso(contador);
+// Obtener la estación climática según la temperatura
+String obtenerEstacion(float temperatura) {
+  if (temperatura >= -5 && temperatura <= 10) {
+    return "Winter";
+  } else if (temperatura > 20 && temperatura <= 30) {
+    return "Spring";
+  } else if (temperatura > 30 && temperatura <= 45) {
+    return "Summer";
+  } else if (temperatura > 10 && temperatura <= 20) {
+    return "Autumn";
+  } else {
+    return "      ";
+  }
 }
+
+// Activar la alarma de incendio
+void activarAlarma() {
+  if (!alarmaActivada) {
+    alarmaActivada = true;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("Alarma");
+    lcd.setCursor(7, 0);
+    lcd.print("Incendio");
+    servo.write(180);
+    delay(1000);
+    digitalWrite(10, HIGH);
+    delay(1000);
+    digitalWrite(9, HIGH);
+    delay(1000);
+    servo.write(180);
+  }
 }
+
+// Desactivar la alarma de incendio
+void desactivarAlarma() {
+  if (alarmaActivada) {
+    alarmaActivada = false;
+    lcd.clear();
+    digitalWrite(10, LOW);
+    digitalWrite(9, LOW);
+    servo.write(90);
+  }
+}
+
+// Activar la alarma de incendio mediante el control remoto
+void activarAlarmaControl() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Alarma");
+  lcd.setCursor(7, 0);
+  lcd.print("Incendio");
+  lcd.setCursor(0, 1);
+  lcd.print("Activada");
+  digitalWrite(9, HIGH);
+  servo.write(180);
+  delay(1000);
+  lcd.clear();
+  delay(1000);
+}
+
+// Desactivar la alarma de incendio mediante el control remoto
+void desactivarAlarmaControl() {
+  lcd.clear();
+  lcd.setCursor(0, 0);
+  lcd.print("Alarma");
+  lcd.setCursor(7, 0);
+  lcd.print("Incendio");
+  lcd.setCursor(0, 1);
+  lcd.print("Desactivada");
+  digitalWrite(10, HIGH);
+  servo.write(90);
+  delay(1000);
+  lcd.clear();
+  delay(1000);
+}
+
+// Mover el servo motor de un extremo a otro
+void moverServo() {
+  if (posicionServo == 0) {
+    posicionServo = 180; // Cambiar la posición del servo motor a 180 grados (derecha)
+  } else {
+    posicionServo = 0; // Cambiar la posición del servo motor a 0 grados (izquierda)
+  }
+  servo.write(posicionServo); // Mover el servo motor a la posición deseada
+  delay(1000); // Retardo de 1 segundo para observar el movimiento
+}
+
 ```
 ### 🤖Funcionando
 ![Montacargas de hospital](https://github.com/magikboy/Parcial-1/blob/655e31a70d93ce6f4b70d06eaaaa3bd76ab51a28/2023-05-16-11-57-43.gif)
