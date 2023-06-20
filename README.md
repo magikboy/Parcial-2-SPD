@@ -8,10 +8,10 @@
 
 ### Modelo de montacarga funcional
 
-![Montacargas de hospital](https://github.com/magikboy/Parcial-1/blob/1a975207471b0b0f8a8c081eb3d869e3463c76a1/tinkercad1.png)
+![Alarma Contra Incendios](https://github.com/magikboy/parcial-2-SPD/blob/35b1e881b319ae2d823b6017096cff1e721dc344/alarma.PNG)
 ### 🦴Modelo esquematico del montacargas
 
-![Montacargas de hospital](https://github.com/magikboy/Parcial-1/blob/7917a8768ca4b1a21c14e51af70ec9adf790448b/imagen_2023-05-18_121209060.png)
+![Montacargas de hospital](https://github.com/magikboy/parcial-2-SPD/blob/35b1e881b319ae2d823b6017096cff1e721dc344/esquema.PNG)
 
 ## 📄Consigna Montacargas:
 Se nos pide armar un modelo de montacarga funcional como maqueta para un hospital. El
@@ -785,7 +785,7 @@ La variable **botonBajar** es una variable que se utiliza para almacenar el esta
 la variable **botonPausa** es una variable que se utiliza para almacenar el estado del botón de pausa. Se lee su estado utilizando la función digitalRead().
 
 ---
-## <img src="tinkercad.png" alt="Tinkercad" height="32px"> Link al proyecto
+## <img src="tinkercad-logo.png" alt="Tinkercad" height="32px"> Link al proyecto
 
 - [Proyecto](https://www.tinkercad.com/things/cn31fUhwE2b)
 
